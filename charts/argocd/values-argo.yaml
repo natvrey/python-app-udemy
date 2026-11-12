@@ -4,9 +4,6 @@ redis-ha:
 controller:
   replicas: 1
 
-server:
-  replicas: 1
-
 repoServer:
   replicas: 1
 
@@ -16,13 +13,16 @@ applicationSet:
 global:
   domain: argocd.test.com
 
-certificate:
-  enabled: true
+configs:
+  params:
+    server.insecure: true
 
 server:
+  replicas: 1
   ingress:
-    annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     enabled: true
-    ingressClassName: nginx
-    tls: true
+    ingressClassName: cloud-provider-kind
+    hostname: argocd.test.com
+    tls: false
+    https: false
+    annotations: {}
